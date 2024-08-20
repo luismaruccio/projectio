@@ -2,9 +2,20 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: [ :show, :update, :destroy ]
 
   def index
-    @projects = Project.all
+    projects = Project.all.map do |project|
+      {
+        id: project.id,
+        name: project.name,
+        start_date: project.start_date,
+        end_date: project.end_date,
+        activities_count: project.activities_count,
+        completed_activities_count: project.completed_activities_count,
+        completion_percentage: project.completion_percentage,
+        overdue_activity: project.overdue_activity?
+      }
+    end
 
-    render json: @projects
+    render json: projects
   end
 
   def show

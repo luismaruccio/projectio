@@ -9,10 +9,12 @@ import {
   CircularProgressLabel,
   Flex,
   Heading,
+  IconButton,
   Stack,
   Tag,
   TagLabel,
 } from '@chakra-ui/react'
+import { Pencil, Trash } from 'lucide-react'
 
 interface ProjectCardProps {
   header: string
@@ -21,6 +23,7 @@ interface ProjectCardProps {
   doneItems: number
   totalItems: number
   progress: number
+  isLate: boolean
 }
 
 export function ProjectCard({
@@ -30,9 +33,10 @@ export function ProjectCard({
   doneItems,
   totalItems,
   progress,
+  isLate,
 }: ProjectCardProps): JSX.Element {
   return (
-    <Card maxW="sm">
+    <Card minW="sm">
       <CardHeader>
         <Heading size="md">{header}</Heading>
       </CardHeader>
@@ -47,10 +51,10 @@ export function ProjectCard({
               size="md"
               borderRadius="full"
               variant="solid"
-              colorScheme="green"
+              colorScheme={isLate ? 'red' : 'green'}
               justifyContent="space-around"
             >
-              <TagLabel>No Prazo</TagLabel>
+              <TagLabel>{isLate ? 'Atrasado' : 'No Prazo'}</TagLabel>
             </Tag>
           </Stack>
           <Stack direction="column">
@@ -65,8 +69,12 @@ export function ProjectCard({
           </Stack>
         </Flex>
       </CardBody>
-      <CardFooter>
-        <Button>View here</Button>
+      <CardFooter justifyContent={'space-between'}>
+        <Flex gap="2">
+          <IconButton aria-label="Editar" icon={<Pencil />} />
+          <IconButton aria-label="Remover" icon={<Trash />} />
+        </Flex>
+        <Button>Detalhes</Button>
       </CardFooter>
     </Card>
   )
