@@ -3,14 +3,14 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { CreateProjectDto } from '../../../application/dtos/projects/createProjectDto'
-import { CreateProjectService } from '../../../application/services/createProjectService'
+import { ProjectService } from '../../../application/services/projectService'
 import { schemaCreateProject } from '../../../application/validations/schemaCreateProject'
 import { BackButton } from '../../components/buttons/backButton'
 import { DateField } from '../../components/textFields/dateField'
 import { TextField } from '../../components/textFields/textFieldBase'
 
 export function NewProject(): JSX.Element {
-  const createProjectService = new CreateProjectService()
+  const projectService = new ProjectService()
   const navigate = useNavigate()
   const toast = useToast()
 
@@ -22,16 +22,14 @@ export function NewProject(): JSX.Element {
   } = useForm<CreateProjectDto>({ resolver: yupResolver(schemaCreateProject) })
 
   const onSubmit = async (data: CreateProjectDto) => {
-    await createProjectService.create(data, navigate, toast)
+    await projectService.create(data, navigate, toast)
   }
 
   return (
     <Box px={4}>
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <HStack>
-          <BackButton
-            onButtonClick={() => createProjectService.goBack(navigate)}
-          />
+          <BackButton onButtonClick={() => projectService.goBack(navigate)} />
           <Box fontWeight="bold" fontSize="2xl">
             Projeto
           </Box>

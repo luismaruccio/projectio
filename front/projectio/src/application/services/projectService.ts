@@ -3,7 +3,7 @@ import { ProjectRepository } from '../../infra/repositories/projectRepository'
 import { CreateProjectDto } from '../dtos/projects/createProjectDto'
 import { RoutesEnum } from '../enums/route'
 
-export class CreateProjectService {
+export class ProjectService {
   goBack(navigate: NavigateFunction) {
     navigate(-1)
   }
@@ -35,6 +35,20 @@ export class CreateProjectService {
       }
     } catch (error) {
       console.error('Erro ao criar projeto:', error)
+    }
+  }
+
+  async getProjects(): Promise<any[]> {
+    const projectRepository = new ProjectRepository()
+
+    try {
+      const projects = await projectRepository.getProjects()
+
+      return projects || []
+    } catch (error) {
+      console.error('Erro ao obter projetos:', error)
+
+      return []
     }
   }
 }
