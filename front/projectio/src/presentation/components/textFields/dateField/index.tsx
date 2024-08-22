@@ -27,6 +27,11 @@ export function DateField({
           configs={{
             dateFormat: 'dd/MM/yyyy',
           }}
+          propsConfigs={{
+            inputProps: {
+              size: 'lg',
+            },
+          }}
         />
       </div>
       {error && <FormErrorMessage>{error}</FormErrorMessage>}

@@ -19,7 +19,19 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    render json: @project
+    project_details = {
+    id: @project.id,
+    name: @project.name,
+    start_date: @project.start_date,
+    end_date: @project.end_date,
+    activities_count: @project.activities_count,
+    completed_activities_count: @project.completed_activities_count,
+    completion_percentage: @project.completion_percentage,
+    overdue_activity: @project.overdue_activity?,
+    activities: @project.activities.as_json(except: [ :created_at, :updated_at ])
+  }
+
+  render json: project_details
   end
 
   def create

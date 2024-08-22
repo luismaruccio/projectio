@@ -13,10 +13,14 @@ import {
   Stack,
   Tag,
   TagLabel,
+  Text,
 } from '@chakra-ui/react'
 import { Pencil, Trash } from 'lucide-react'
+import { NavigateFunction } from 'react-router-dom'
+import { RoutesEnum } from '../../../../application/enums/route'
 
 interface ProjectCardProps {
+  project_id: number
   header: string
   startDate: string
   endDate: string
@@ -24,9 +28,11 @@ interface ProjectCardProps {
   totalItems: number
   progress: number
   isLate: boolean
+  navigate: NavigateFunction
 }
 
 export function ProjectCard({
+  project_id,
   header,
   startDate,
   endDate,
@@ -34,9 +40,16 @@ export function ProjectCard({
   totalItems,
   progress,
   isLate,
+  navigate,
 }: ProjectCardProps): JSX.Element {
+  const handleClick = () => {
+    navigate(RoutesEnum.PROJECT, {
+      state: project_id,
+    })
+  }
+
   return (
-    <Card minW="sm">
+    <Card minW="sm" id={`project_- ${project_id}`}>
       <CardHeader>
         <Heading size="md">{header}</Heading>
       </CardHeader>
@@ -44,9 +57,9 @@ export function ProjectCard({
         <Flex justifyContent="space-between">
           <Stack direction="column">
             <Heading size="sm">Data de Início</Heading>
-            <text>{startDate}</text>
+            <Text>{startDate}</Text>
             <Heading size="sm">Data de Término</Heading>
-            <text>{endDate}</text>
+            <Text>{endDate}</Text>
             <Tag
               size="md"
               borderRadius="full"
@@ -63,9 +76,9 @@ export function ProjectCard({
                 <CircularProgressLabel>{progress}%</CircularProgressLabel>
               </CircularProgress>
             </Center>
-            <text>
+            <Text>
               {doneItems} itens concluídos de {totalItems}
-            </text>
+            </Text>
           </Stack>
         </Flex>
       </CardBody>
@@ -74,7 +87,7 @@ export function ProjectCard({
           <IconButton aria-label="Editar" icon={<Pencil />} />
           <IconButton aria-label="Remover" icon={<Trash />} />
         </Flex>
-        <Button>Detalhes</Button>
+        <Button onClick={handleClick}>Detalhes</Button>
       </CardFooter>
     </Card>
   )

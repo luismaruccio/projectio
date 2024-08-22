@@ -1,13 +1,15 @@
 import { Box, Flex, Wrap } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ProjectResponse } from '../../../application/dtos/projects/projectResponse'
 import { ProjectService } from '../../../application/services/projectService'
-import NavigationButton from '../../components/buttons/NavigationButton'
+import NavigationButton from '../../components/buttons/navigationButton/NavigationButton'
 import { ProjectCard } from '../../components/cards/projectCard'
 
 export function Home(): JSX.Element {
   const [projects, setProjects] = useState<ProjectResponse[]>([])
   const projectService = new ProjectService()
+  const navigate = useNavigate()
 
   useEffect(() => {
     async function fetchProjects() {
@@ -43,6 +45,8 @@ export function Home(): JSX.Element {
         <Wrap>
           {projects.map((project) => (
             <ProjectCard
+              key={project.id}
+              project_id={project.id}
               header={project.name}
               startDate={project.start_date}
               endDate={project.end_date}
@@ -50,6 +54,7 @@ export function Home(): JSX.Element {
               totalItems={project.activities_count}
               progress={project.completion_percentage}
               isLate={project.overdue_activity}
+              navigate={navigate}
             />
           ))}
         </Wrap>
