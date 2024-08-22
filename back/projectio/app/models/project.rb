@@ -21,4 +21,8 @@ class Project < ApplicationRecord
   def overdue_activity?
     activities.where("completed = ? AND end_date > ?", false, end_date).exists?
   end
+
+  def as_json(options = {})
+    super(options.merge(except: [ :created_at, :updated_at ]))
+  end
 end

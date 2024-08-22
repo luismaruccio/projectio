@@ -1,6 +1,7 @@
 import { NavigateFunction } from 'react-router-dom'
 import { ProjectRepository } from '../../infra/repositories/projectRepository'
 import { CreateProjectDto } from '../dtos/projects/createProjectDto'
+import { ProjectDetailsResponse } from '../dtos/projects/projectDetailsResponse'
 import { RoutesEnum } from '../enums/route'
 
 export class ProjectService {
@@ -49,6 +50,23 @@ export class ProjectService {
       console.error('Erro ao obter projetos:', error)
 
       return []
+    }
+  }
+
+  async getProject(
+    project_id: number
+  ): Promise<ProjectDetailsResponse | undefined> {
+    const projectRepository = new ProjectRepository()
+    try {
+      const project = await projectRepository.getProject(project_id)
+
+      console.log(project)
+
+      return project
+    } catch (error) {
+      console.error('Erro ao obter o projeto:', error)
+
+      return
     }
   }
 }
