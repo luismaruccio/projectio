@@ -7,8 +7,8 @@ import { NewProject } from '../pages/projects'
 export function AppRoutes(): JSX.Element {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/newproject" element={<NewProject />} />
+      <Route path={RoutesEnum.HOME} element={<Home />} />
+      <Route path={RoutesEnum.NEW_PROJECT} element={<NewProject />} />
       <Route path={RoutesEnum.PROJECT} element={<ProjectDetails />} />
     </Routes>
   )
