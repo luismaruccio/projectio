@@ -1,20 +1,18 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: projectio
-  password: projectio
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
+  database: <%= ENV['PGDATABASE'] || 'projectio_db' %>
+  username: <%= ENV['POSTGRES_USER'] || 'projectio' %>
+  password: <%= ENV['POSTGRES_PASSWORD'] || 'projectio' %>
+  host: <%= ENV['POSTGRES_HOST'] || 'localhost' %>
+  port: <%= ENV['PGPORT'] || 5432 %>
 
 development:
   <<: *default
-  database: projectio_development
 
 test:
   <<: *default
-  database: projectio_test
 
 production:
   <<: *default
-  database: projectio_production
-  password: <%= ENV["PROJECTIO_DATABASE_PASSWORD"] %>
