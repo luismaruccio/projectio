@@ -11,23 +11,23 @@ export function Home(): JSX.Element {
   const projectService = new ProjectService()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    async function fetchProjects() {
-      try {
-        const fetchedProjects = await projectService.getProjects()
-        console.log(fetchedProjects)
-        if (Array.isArray(fetchedProjects)) {
-          setProjects(fetchedProjects)
-        } else {
-          setProjects([])
-          console.error('A resposta da API não é um array:', fetchedProjects)
-        }
-      } catch (error) {
-        console.error('Erro ao buscar projetos:', error)
+  async function fetchProjects() {
+    try {
+      const fetchedProjects = await projectService.getProjects()
+      console.log(fetchedProjects)
+      if (Array.isArray(fetchedProjects)) {
+        setProjects(fetchedProjects)
+      } else {
         setProjects([])
+        console.error('A resposta da API não é um array:', fetchedProjects)
       }
+    } catch (error) {
+      console.error('Erro ao buscar projetos:', error)
+      setProjects([])
     }
+  }
 
+  useEffect(() => {
     fetchProjects()
   }, [])
 

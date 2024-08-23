@@ -38,6 +38,7 @@ export function ActivityModal({
   const [activity, setActivity] = useState<ActivityDetailsResponse | undefined>(
     undefined
   )
+  const [isNew, setIsNew] = useState<Boolean>()
   const { isOpen, onClose, onOpen } = useDisclosure()
   const activityService = new ActivityService()
 
@@ -55,6 +56,7 @@ export function ActivityModal({
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<createActivityDto>({
     resolver: yupResolver(schemaCreateActivity),
@@ -65,24 +67,33 @@ export function ActivityModal({
   })
 
   useEffect(() => {
+    setValuesForm()
+  }, [activity, project_id, setValue])
+
+  async function setValuesForm() {
     if (activity) {
       setValue('name', activity.name)
       setValue('start_date', new Date(activity.start_date))
       setValue('end_date', new Date(activity.end_date))
       setValue('completed', activity.completed)
       setValue('project_id', activity.project_id)
+      setIsNew(false)
     } else if (project_id) {
       setValue('project_id', project_id)
+      setIsNew(true)
     }
-  }, [activity, project_id, setValue])
+  }
 
   const onSubmit: SubmitHandler<createActivityDto> = async (data) => {
-    try {
-      await activityService.create(data)
-      onClose()
-      onCloseModal()
-    } catch (error) {
-      console.error('Erro ao criar atividade:', error)
+    if (isNew) {
+      try {
+        await activityService.create(data)
+        reset()
+        onClose()
+        onCloseModal()
+      } catch (error) {
+        console.error('Erro ao criar atividade:', error)
+      }
     }
   }
 
