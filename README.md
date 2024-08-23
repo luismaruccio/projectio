@@ -15,6 +15,11 @@ O repositório está organizado da seguinte forma:
 - Git
   
 ## Passos para Reproduzir o Projeto
+Existem duas formas de executar o projeto, manualmente ou por docker:
+
+<details>
+<summary>Manualmente</summary>
+  
 ### 1. Clonar o Repositório
 ```bash
 git clone -b dev https://github.com/luismaruccio/projectio.git
@@ -74,3 +79,32 @@ Agora, você pode acessar a aplicação nos seguintes endpoints:
 
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:3001
+</details>
+
+<details>
+<summary>Docker</summary>
+  
+### 1. Clonar o Repositório
+```bash
+git clone -b dev https://github.com/luismaruccio/projectio.git
+cd projectio
+```
+### 2. Executar a Aplicação com Docker Compose
+Na raiz do projeto, onde o arquivo docker-compose.yml está localizado, execute o seguinte comando:
+```bash
+docker-compose up --build
+```
+Isso irá:
+
+- Criar e executar um contêiner para o banco de dados PostgreSQL.
+- Criar e executar um contêiner para o backend Rails.
+- Criar e executar um contêiner para o frontend React.
+
+O Docker Compose irá automaticamente construir as imagens e iniciar os serviços definidos no arquivo docker-compose.yml (Isso pode levar um certo tempo quando executado pela primeira vez).
+
+### 3. Acessar a Aplicação
+Depois que o Docker Compose terminar de iniciar todos os serviços, você poderá acessar a aplicação nos seguintes endpoints:
+
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:3001
+</details>
