@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:15.4
+    environment:
+      POSTGRES_USER: projectio
+      POSTGRES_PASSWORD: projectio
+      POSTGRES_DB: projectio
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./back/projectio
+      dockerfile: Dockerfile
+    environment:
+      RAILS_ENV: production
+      DATABASE_URL: postgres://projectio:projectio@db:5432/projectio
+      RAILS_MASTER_KEY: c77cfef122a6ba097b15aea126f1ab54
+    volumes:
+      - ./back:/rails
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./front/projectio
+      dockerfile: Dockerfile
+    environment:
+      REACT_APP_API_URL: http://localhost:3000
+    volumes:
+      - ./front:/app
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
